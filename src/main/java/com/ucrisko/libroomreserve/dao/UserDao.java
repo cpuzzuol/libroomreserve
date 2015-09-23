@@ -11,10 +11,10 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 public interface UserDao {
-  public void openCurrentSession();
+  /*public void openCurrentSession();
   public void openCurrentSessionWithTransaction();
   public void closeCurrentSession();
-  public void closeCurrentSessionWithTransaction();        
+  public void closeCurrentSessionWithTransaction();*/
   public void addUser(User user);
   public void editUser(User user);
   public void deleteUser(int userId);

@@ -19,7 +19,7 @@ public class UserDaoImpl implements UserDao{
   
   @Autowired
   private SessionFactory session;
-  
+  /*
   @Override
   public void openCurrentSession(){
     session.openSession();
@@ -40,7 +40,7 @@ public class UserDaoImpl implements UserDao{
     session.getCurrentSession().getTransaction().commit();
     session.close();
   }
-  
+  */
   @Override
   public void addUser(User user) {
     session.getCurrentSession().save(user);
