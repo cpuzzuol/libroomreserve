@@ -2,8 +2,10 @@ package com.ucrisko.libroomreserve.controllers;
 
 import com.ucrisko.libroomreserve.models.User;
 import com.ucrisko.libroomreserve.services.UserService;
+import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,20 +14,37 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
+@RequestMapping(value="/user")
 public class UserController {
   
   @Autowired
   private UserService userService;
   
-  @RequestMapping(value="/user", method=RequestMethod.GET)
+  /*
+  @RequestMapping(method=RequestMethod.GET)
   public String setupForm(Map<String, Object> map){
     User user = new User();
     map.put("user", user);
     map.put("userList", userService.getAllUsers());
     return "user";
   }
+  */
+  
+  @ResponseStatus(HttpStatus.OK)
+  @RequestMapping(method = RequestMethod.GET)
+  public List<User> setupForm(Map<String, Object> map){
+    User user = new User();
+    map.put("user", user);
+    map.put("userList", userService.getAllUsers());
+    return userService.getAllUsers();
+  }
+  
+  
   @RequestMapping(value="/user.do", method=RequestMethod.POST)
   public String doActions(@ModelAttribute User user, BindingResult result, @RequestParam String action, Map<String, Object> map){
     User userResult = new User();

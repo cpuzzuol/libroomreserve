@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+  <head>
+    <title>TODO supply a title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/resources/public/css/style.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+    <script src="/libroomreserve/resources/js/user.js"></script>
+  </head>
+  <body>
+    
+    <div ng-app="userApp" ng-controller="UserController as uc">
+      <select ng-model="uc.user">
+        <option ng-repeat="u in uc.users">{{u}}</option>
+      </select>
+      <h2>{{uc.totalUsers(uc.users)}}</h2>
+      <div ng-view></div>
+    </div>
+  </body>
+</html>

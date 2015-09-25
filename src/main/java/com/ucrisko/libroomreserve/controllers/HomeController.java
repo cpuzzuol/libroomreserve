@@ -14,11 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class HomeController {
   
-  @RequestMapping(value="/roast", method=RequestMethod.GET)
-  public String homePage(Model model){
-    return "index";
-  }
-  
   @RequestMapping(value="/", method=RequestMethod.GET)
   public String indexPage(Model model){
     return "index";

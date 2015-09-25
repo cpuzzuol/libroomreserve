@@ -19,28 +19,7 @@ public class UserDaoImpl implements UserDao{
   
   @Autowired
   private SessionFactory session;
-  /*
-  @Override
-  public void openCurrentSession(){
-    session.openSession();
-  }
-  
-  @Override
-  public void openCurrentSessionWithTransaction(){
-    session.openSession().beginTransaction();
-  }
-  
-  @Override
-  public void closeCurrentSession(){
-    session.close();
-  }
-  
-  @Override
-  public void closeCurrentSessionWithTransaction(){
-    session.getCurrentSession().getTransaction().commit();
-    session.close();
-  }
-  */
+
   @Override
   public void addUser(User user) {
     session.getCurrentSession().save(user);
