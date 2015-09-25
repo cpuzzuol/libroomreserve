@@ -42,7 +42,7 @@ userModule.service('UserService', ['$http','$q', function($http, $q) {
 userModule.config(['$routeProvider', '$locationProvider',
   function($routeProvider, $locationProvider){
     $routeProvider.
-            when('/user', {
+            when('/userbones', {
               templateUrl: 'public/user.html',
               controller: 'UserController'
             }).
