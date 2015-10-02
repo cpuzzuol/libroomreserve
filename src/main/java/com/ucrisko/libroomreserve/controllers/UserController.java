@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,7 +26,46 @@ public class UserController {
   @Autowired
   private UserService userService;
   
+  @ResponseStatus(HttpStatus.OK)
+  @RequestMapping(method = RequestMethod.GET)
+  public List<User> listUsers(Map<String, Object> map){
+    User user = new User();
+    map.put("user", user);
+    map.put("userList", userService.getAllUsers());
+    return userService.getAllUsers();
+  }
+  
+  @ResponseStatus(HttpStatus.OK)
+  @RequestMapping(method = RequestMethod.POST)
+  public void addUser(@RequestBody String userName){
+    User newUser = new User();
+    newUser.setUserName(userName);
+    userService.addUser(newUser);
+  }
+  
+  @ResponseStatus(HttpStatus.OK)
+  @RequestMapping(value="/{userId}", method = RequestMethod.PUT)
+  public void editUser(@PathVariable Long userId, @RequestBody User user){
+    userService.editUser(user);
+  }
+  
+  
+  @ResponseStatus(HttpStatus.OK)
+  @RequestMapping(method = RequestMethod.DELETE)
+  public void deleteUsers(@RequestParam(value="userId", required=true) List<Long> userIds){
+    userService.deleteUsers(userIds);
+  }
+  
+  
   /*
+  
+  /*
+  @ResponseStatus(HttpStatus.OK)
+  @RequestMapping(method = RequestMethod.DELETE)
+  public void deleteUser(@RequestParam(value="userId", required=true) Long userId){
+    userService.deleteUser(userId);
+  } 
+  
   @RequestMapping(method=RequestMethod.GET)
   public String setupForm(Map<String, Object> map){
     User user = new User();
@@ -33,18 +73,7 @@ public class UserController {
     map.put("userList", userService.getAllUsers());
     return "user";
   }
-  */
-  
-  @ResponseStatus(HttpStatus.OK)
-  @RequestMapping(method = RequestMethod.GET)
-  public List<User> setupForm(Map<String, Object> map){
-    User user = new User();
-    map.put("user", user);
-    map.put("userList", userService.getAllUsers());
-    return userService.getAllUsers();
-  }
-  
-  
+ 
   @RequestMapping(value="/user.do", method=RequestMethod.POST)
   public String doActions(@ModelAttribute User user, BindingResult result, @RequestParam String action, Map<String, Object> map){
     User userResult = new User();
@@ -85,4 +114,5 @@ public class UserController {
     }
     return "deleteUser";
   }
+  */
 }

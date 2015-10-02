@@ -31,18 +31,23 @@ public class UserServiceImpl implements UserService{
   }
 
   @Transactional
-  public void deleteUser(int userId) {
+  public void deleteUser(Long userId) {
     userDao.deleteUser(userId);
   }
 
   @Transactional
-  public User getUser(int userId) {
+  public User getUser(Long userId) {
     return userDao.getUser(userId);
   }
 
   @Transactional
   public List getAllUsers() {
     return userDao.getAllUsers();
+  }
+
+  @Transactional
+  public void deleteUsers(List<Long> userIds) {
+    userDao.deleteUsers(userIds);
   }
 
 }

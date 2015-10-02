@@ -1,6 +1,28 @@
-<div class="jumbotron text-center">
+<div ng-controller="UserController" ng-init="getUsersList()">
     <h1>User Page</h1>
-
-    <p>{{ message }}</p>
+    <h2>User List</h2>
+    <p>There are {{ users.length }} registered users.</p>
+    <ul>
+      <li ng-repeat="user in users">
+        <input type="checkbox" name="deleteUsers[]" value="{{user.userId}}" ng-click="toggleSelection(user.userId)"> {{user.userId}}: {{user.userName}} <button ng-click="userSelect(user.userId)">Edit</button> | <button ng-click="userDelete(user.userId)">Delete</button>
+      </li>
+      <input type="button" value="Delete Selected" ng-click="usersDelete(selectedUsersForDeletion)">
+    </ul>
+    <h2>User Information</h2>
+    <table cellpadding="2" cellspacing="2">
+      <tr>
+        <td>Username</td>
+        <td>
+          <input type="text" ng-model="userName">
+        </td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td>
+          <input type="button" value="Add" ng-click="userAdd()">
+          <input type="button" value="Save" ng-click="userEdit()">
+        </td>
+      </tr>
+    </table>
 </div>
 
