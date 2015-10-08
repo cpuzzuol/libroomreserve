@@ -131,6 +131,13 @@
                 <version>1.10.19</version>
                 <scope>test</scope>
         </dependency>
+        <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-test</artifactId>
+                <version>4.2.1.RELEASE</version>
+                <scope>test</scope>
+        </dependency>
+        
 
         <!-- Java -->
         <dependency>
@@ -149,6 +156,7 @@
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>3.0.1</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>javax</groupId>
