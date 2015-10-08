@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE urlrewrite
+    PUBLIC "-//tuckey.org//DTD UrlRewrite 4.0//EN"
+    "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
+
+<urlrewrite>
+  <!--
+    <rule>
+       <from>^/some/olddir/(.*)$</from>
+       <to type="redirect">/very/newdir/$1</to>
+    </rule>
+  -->
+  <rule>
+       <from>^/home</from>
+       <to type="redirect">index.html#/home</to>
+  </rule>
+  <rule>
+       <from>^/$</from>
+       <to type="redirect">index.html#/home</to>
+  </rule>
+  <rule>
+       <from>^/profile</from>
+       <to type="redirect">index.html#/profile</to>
+  </rule>
+  <rule>
+       <from>^/contact</from>
+       <to type="redirect">index.html#/contact</to>
+  </rule>
+  <rule>
+       <from>^/register</from>
+       <to type="redirect">index.html#/register</to>
+  </rule>
+  <rule>
+       <from>^/signin</from>
+       <to type="redirect">index.html#/signin</to>
+  </rule>
+  <!--
+  <rule match-type="wildcard">
+     <from>libroomreserve/**</from>
+     <to type="redirect">http://localhost:8080/libroomreserve/users</to>
+  </rule>
+  -->
+</urlrewrite>

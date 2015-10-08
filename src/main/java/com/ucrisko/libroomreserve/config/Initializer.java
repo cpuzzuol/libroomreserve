@@ -1,15 +1,19 @@
 package com.ucrisko.libroomreserve.config;
 
+import javax.servlet.Filter;
+import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+import org.tuckey.web.filters.urlrewrite.UrlRewriteFilter;
 
-
+ /*
 public class Initializer implements WebApplicationInitializer {
-
+ 
     @Override
     public void onStartup(ServletContext container) {
       // Create the 'root' Spring application context
@@ -31,6 +35,36 @@ public class Initializer implements WebApplicationInitializer {
       dispatcher.setLoadOnStartup(1);
       dispatcher.addMapping("/*");
       dispatcher.addMapping("*.html");
-    }
+    } 
 
  }
+*/
+
+
+public class Initializer extends AbstractAnnotationConfigDispatcherServletInitializer
+        implements WebApplicationInitializer {
+
+    @Override
+    protected Class<?>[] getRootConfigClasses() {
+        return new Class<?>[] {RootConfig.class, WebSecurityConfig.class};
+    }
+
+    @Override
+    protected Class<?>[] getServletConfigClasses() {
+        return new Class<?>[] {WebAppConfig.class};
+    }
+
+    @Override
+    protected String[] getServletMappings() {
+        return new String[] {"/*", "*.html"};
+    }
+
+    @Override
+    protected Filter[] getServletFilters() {
+        UrlRewriteFilter urlRewriteFilter = new UrlRewriteFilter();
+        
+         //Add filter configuration here if necessary
+        return new Filter[] {urlRewriteFilter};
+    }
+}
+

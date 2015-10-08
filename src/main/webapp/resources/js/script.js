@@ -1,20 +1,29 @@
-var roomResApp = angular.module('roomResApp',['ngRoute']);
+var roomResApp = angular.module('roomResApp',['ngRoute', 'ngCookies', 'registrationApp', 'signinApp']);
 
 roomResApp.controller('MainController', ['$scope', function($scope) {
     $scope.message = 'MAIN PAGE!';
 }]);
 
-roomResApp.controller('UserController', ['$scope', '$http', function($scope, $http) {
+roomResApp.controller('UserController', ['$scope', '$http', '$cookies', function($scope, $http, $cookies) {
+    
+    //get the XSRF (cross-site request forgery) Token from the browser cookie and send in POST, PUT, DELETE requests
+    var XSRF = $cookies['X-XSRF-TOKEN'];
+    
     $scope.getUsersList = function() {
-      $http.get('http://localhost:8080/libroomreserve/user')
-      .success(function(response) {$scope.users = response;})
-      .error(function(response) {console.log(response)});
+      $http.get('http://localhost:8080/libroomreserve/users')
+      .success(function(data, status, headers, config) {$scope.users = data; console.log(config);})
+      .error(function(data) {console.log(data)});
     }
     // selected users for deletion
     $scope.selectedUsersForDeletion = [];
       
     $scope.userAdd = function(){ 
-      $http.post('http://localhost:8080/libroomreserve/user', $scope.userName);
+      var config = {
+        headers : {
+          'X-XSRF-TOKEN' : XSRF
+        }
+      }
+      $http.post('http://localhost:8080/libroomreserve/users', $scope.userName, config);
       
       //reset scope variables after push
       $scope.userId = '';
@@ -26,8 +35,13 @@ roomResApp.controller('UserController', ['$scope', '$http', function($scope, $ht
       var index = getSelectedIndex($scope.userId);
       $scope.users[index].userName = $scope.userName;
       
+      var config = {
+        headers : {
+          'X-XSRF-TOKEN' : XSRF
+        }
+      }
       //put requires a User object (on the spring side)...be sure to include $scope.user[index]
-      $http.put('http://localhost:8080/libroomreserve/user/' + $scope.userId, $scope.users[index]);
+      $http.put('http://localhost:8080/libroomreserve/users/' + $scope.userId, $scope.users[index], config);
     }
     $scope.userSelect = function(id){
       var index = getSelectedIndex(id);
@@ -67,8 +81,16 @@ roomResApp.controller('UserController', ['$scope', '$http', function($scope, $ht
     function deleteUser(value, index, array){
       var index = getSelectedIndex(value);
       $scope.users.splice(index, 1);
-
-      $http.delete('http://localhost:8080/libroomreserve/user', {params: {userId: value}});
+      
+      var config = {
+        params : {
+          userId: value
+        }, 
+        headers : {
+          'X-XSRF-TOKEN' : XSRF
+        }
+      }
+      $http.delete('http://localhost:8080/libroomreserve/users', config);
     }
     
     //find the userId that was selected for deletion
@@ -95,7 +117,7 @@ roomResApp.config(function($routeProvider, $locationProvider) {
             controller  : 'MainController'
         })
         // route for the about page
-        .when('/users', {
+        .when('/profile', {
             templateUrl : 'pages/user.html',
             controller  : 'UserController'
         })
@@ -104,13 +126,21 @@ roomResApp.config(function($routeProvider, $locationProvider) {
             templateUrl : 'pages/contact.html',
             controller  : 'ContactController'
         })
-        .otherwise({
-          redirectTo: '/home'
+        .when('/register', {
+            templateUrl : 'pages/registration.html',
+            controller  : 'RegistrationController'
+        })
+        .when('/signin', {
+            templateUrl : 'pages/login.html',
+            controller  : 'SigninController'
         });
         
         // use the HTML5 History API
         $locationProvider.html5Mode(true);
 });
 
+roomResApp.run(function(){
+  
+});
 
 

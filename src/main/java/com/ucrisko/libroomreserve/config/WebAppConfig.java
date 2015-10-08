@@ -9,6 +9,13 @@ package com.ucrisko.libroomreserve.config;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +26,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.tuckey.web.filters.urlrewrite.UrlRewriteFilter;
 
 @Configuration
 @EnableWebMvc
@@ -36,19 +44,6 @@ public class WebAppConfig extends WebMvcConfigurerAdapter{
     configurer.enable();
   }
   
-  /*
-  @Bean
-  public InternalResourceViewResolver getIRVR(){
-    System.out.println("Setting up view resolver...");
-    InternalResourceViewResolver irvr = new InternalResourceViewResolver();
-
-    
-    irvr.setPrefix("/resources/public/");
-    irvr.setSuffix(".html");
-    return irvr;
-  }
-  */
-  
   //Jackson JSON Beans
   @Bean
   public MappingJackson2HttpMessageConverter jsonConverter(){
@@ -64,4 +59,17 @@ public class WebAppConfig extends WebMvcConfigurerAdapter{
     objectMapper.setSerializationInclusion(Include.NON_NULL);
     return objectMapper;
   }
+  
+  /*
+  @Bean
+  public InternalResourceViewResolver getIRVR(){
+    System.out.println("Setting up view resolver...");
+    InternalResourceViewResolver irvr = new InternalResourceViewResolver();
+
+    
+    irvr.setPrefix("/resources/public/");
+    irvr.setSuffix(".html");
+    return irvr;
+  }
+  */
 }
