@@ -1,4 +1,4 @@
-package com.ucrisko.libroomreserve.dto;
+package com.ucrisko.libroomreserve.core.dto;
 
 /**
  *

@@ -4,9 +4,9 @@
  * and open the template in the editor.
  */
 
-package com.ucrisko.libroomreserve.services;
+package com.ucrisko.libroomreserve.core.services;
 
-import com.ucrisko.libroomreserve.models.User;
+import com.ucrisko.libroomreserve.core.entities.User;
 import java.util.List;
 
 public interface UserService {

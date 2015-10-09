@@ -4,9 +4,9 @@
  * and open the template in the editor.
  */
 
-package com.ucrisko.libroomreserve.dao;
+package com.ucrisko.libroomreserve.core.dao;
 
-import com.ucrisko.libroomreserve.models.User;
+import com.ucrisko.libroomreserve.core.entities.User;
 import java.util.List;
 import org.springframework.stereotype.Component;
 

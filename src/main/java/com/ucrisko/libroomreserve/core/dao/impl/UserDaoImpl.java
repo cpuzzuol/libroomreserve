@@ -4,10 +4,10 @@
  * and open the template in the editor.
  */
 
-package com.ucrisko.libroomreserve.dao.impl;
+package com.ucrisko.libroomreserve.core.dao.impl;
 
-import com.ucrisko.libroomreserve.dao.UserDao;
-import com.ucrisko.libroomreserve.models.User;
+import com.ucrisko.libroomreserve.core.dao.UserDao;
+import com.ucrisko.libroomreserve.core.entities.User;
 import java.util.List;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;

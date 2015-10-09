@@ -1,7 +1,7 @@
-package com.ucrisko.libroomreserve.controllers;
+package com.ucrisko.libroomreserve.rest.controllers;
 
-import com.ucrisko.libroomreserve.models.User;
-import com.ucrisko.libroomreserve.services.UserService;
+import com.ucrisko.libroomreserve.core.entities.User;
+import com.ucrisko.libroomreserve.core.services.UserService;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value="/users")
+@RequestMapping(value="/api/user")
 public class UserController {
   
   @Autowired

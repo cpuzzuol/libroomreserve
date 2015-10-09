@@ -4,11 +4,11 @@
  * and open the template in the editor.
  */
 
-package com.ucrisko.libroomreserve.services.impl;
+package com.ucrisko.libroomreserve.core.services.impl;
 
-import com.ucrisko.libroomreserve.dao.UserDao;
-import com.ucrisko.libroomreserve.models.User;
-import com.ucrisko.libroomreserve.services.UserService;
+import com.ucrisko.libroomreserve.core.dao.UserDao;
+import com.ucrisko.libroomreserve.core.entities.User;
+import com.ucrisko.libroomreserve.core.services.UserService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

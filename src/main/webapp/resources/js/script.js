@@ -10,7 +10,7 @@ roomResApp.controller('UserController', ['$scope', '$http', '$cookies', function
     var XSRF = $cookies['X-XSRF-TOKEN'];
     
     $scope.getUsersList = function() {
-      $http.get('http://localhost:8080/libroomreserve/users')
+      $http.get('http://localhost:8080/libroomreserve/api/user')
       .success(function(data, status, headers, config) {$scope.users = data; console.log(config);})
       .error(function(data) {console.log(data)});
     }
@@ -23,7 +23,7 @@ roomResApp.controller('UserController', ['$scope', '$http', '$cookies', function
           'X-XSRF-TOKEN' : XSRF
         }
       }
-      $http.post('http://localhost:8080/libroomreserve/users', $scope.userName, config);
+      $http.post('http://localhost:8080/libroomreserve/api/user', $scope.userName, config);
       
       //reset scope variables after push
       $scope.userId = '';
@@ -41,7 +41,7 @@ roomResApp.controller('UserController', ['$scope', '$http', '$cookies', function
         }
       }
       //put requires a User object (on the spring side)...be sure to include $scope.user[index]
-      $http.put('http://localhost:8080/libroomreserve/users/' + $scope.userId, $scope.users[index], config);
+      $http.put('http://localhost:8080/libroomreserve/api/user/' + $scope.userId, $scope.users[index], config);
     }
     $scope.userSelect = function(id){
       var index = getSelectedIndex(id);
@@ -90,7 +90,7 @@ roomResApp.controller('UserController', ['$scope', '$http', '$cookies', function
           'X-XSRF-TOKEN' : XSRF
         }
       }
-      $http.delete('http://localhost:8080/libroomreserve/users', config);
+      $http.delete('http://localhost:8080/libroomreserve/api/user', config);
     }
     
     //find the userId that was selected for deletion
