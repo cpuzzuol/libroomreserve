@@ -104,12 +104,12 @@
         <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-core</artifactId>
-                <version>2.3</version>
+                <version>2.4</version>
         </dependency>
         <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-api</artifactId>
-                <version>2.3</version>
+                <version>2.4</version>
         </dependency>
 
         <!-- Jackson JSON Processor -->
@@ -142,7 +142,7 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-test</artifactId>
                 <version>4.2.1.RELEASE</version>
-                <scope>test</scope>
+            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>com.jayway.jsonpath</groupId>

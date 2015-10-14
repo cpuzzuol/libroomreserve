@@ -2,6 +2,10 @@ package com.ucrisko.libroomreserve.rest.controllers;
 
 import com.ucrisko.libroomreserve.core.entities.User;
 import com.ucrisko.libroomreserve.core.services.UserService;
+import com.ucrisko.libroomreserve.core.services.exceptions.UserDoesNotExistException;
+import com.ucrisko.libroomreserve.core.services.exceptions.UserExistsException;
+import com.ucrisko.libroomreserve.rest.exceptions.BadRequestException;
+import com.ucrisko.libroomreserve.rest.exceptions.ConflictException;
 import com.ucrisko.libroomreserve.rest.resources.UserResource;
 import com.ucrisko.libroomreserve.rest.resources.asm.UserResourceAsm;
 import java.util.List;
@@ -37,7 +41,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value="/api/user")
 public class UserController {
-  
+
   @Autowired
   private UserService userService;
   
@@ -51,30 +55,47 @@ public class UserController {
   
   @RequestMapping(value="/{userId}", method = RequestMethod.GET)
   public ResponseEntity<UserResource> getUser(@PathVariable Long userId){
-    User user = userService.getUser(userId);
-    UserResource userResource = new UserResourceAsm().toResource(user);
-    
-    return new ResponseEntity<UserResource>(userResource, HttpStatus.OK);
+    try{
+      User user = userService.getUser(userId);
+      UserResource userResource = new UserResourceAsm().toResource(user);
+      return new ResponseEntity<UserResource>(userResource, HttpStatus.OK);
+    } catch(NullPointerException exception) {
+      throw new BadRequestException(exception);
+    }
   }
-  
-  @ResponseStatus(HttpStatus.OK)
+
   @RequestMapping(method = RequestMethod.POST)
-  public void addUser(@RequestBody String userName){
-    User newUser = new User();
-    newUser.setUserName(userName);
-    userService.addUser(newUser);
+  public ResponseEntity<UserResource> addUser(@RequestBody String userName){
+    try {
+      User newUser = new User();
+      newUser.setUserName(userName);
+      User addedUser = userService.addUser(newUser);
+      UserResource usr = new UserResourceAsm().toResource(addedUser);
+      return new ResponseEntity<UserResource>(usr, HttpStatus.CREATED);
+    } catch(UserExistsException exception) {
+        throw new BadRequestException(exception);
+    }
   }
-  
-  @ResponseStatus(HttpStatus.OK)
+
   @RequestMapping(value="/{userId}", method = RequestMethod.PUT)
-  public void editUser(@PathVariable Long userId, @RequestBody User user){
-    userService.editUser(user);
+  public ResponseEntity<UserResource> editUser(@PathVariable Long userId, @RequestBody UserResource userResource){
+    User updatedUser = userService.editUser(userId, userResource.toUser());
+    if(updatedUser != null){
+      UserResource usr = new UserResourceAsm().toResource(updatedUser);
+      return new ResponseEntity<UserResource>(usr, HttpStatus.OK);
+    } else {
+      return new ResponseEntity<UserResource>(HttpStatus.NOT_FOUND); 
+    }
   }
   
-  
-  @ResponseStatus(HttpStatus.OK)
   @RequestMapping(method = RequestMethod.DELETE)
-  public void deleteUsers(@RequestParam(value="userId", required=true) List<Long> userIds){
-    userService.deleteUsers(userIds);
+  public ResponseEntity<UserResource> deleteUser(@RequestParam(value="userId", required=true) Long userId){
+    User deletedUser = userService.deleteUser(userId);
+    if(deletedUser != null){
+      UserResource usr = new UserResourceAsm().toResource(deletedUser);
+      return new ResponseEntity<UserResource>(usr, HttpStatus.OK);
+    } else {
+      return new ResponseEntity<UserResource>(HttpStatus.NOT_FOUND); 
+    }
   }
 }

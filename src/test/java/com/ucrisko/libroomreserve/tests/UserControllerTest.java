@@ -19,8 +19,11 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
+import static org.mockito.Matchers.any;
 import org.mockito.Mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
@@ -38,6 +41,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class UserControllerTest {
   private MockMvc mockMvc;
   
+  private ArgumentCaptor<User> userCaptor;
+  
   @Mock
   private UserService userService;
   
@@ -50,6 +55,8 @@ public class UserControllerTest {
     
     //build the mock mvc setup
     mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+    
+    userCaptor = ArgumentCaptor.forClass(User.class);
   }
   
   @Test
@@ -60,8 +67,7 @@ public class UserControllerTest {
     List<User> users = new ArrayList<>();
     users.add(firstUser);
     users.add(secondUser);
-    
-    //when(controller.listUsers(map)).thenReturn(Arrays.asList(firstUser, secondUser));
+
     when(userService.getAllUsers()).thenReturn(users);
     
     //run mock mvc environment
@@ -84,4 +90,27 @@ public class UserControllerTest {
     
     when(userService.getUser(user.getUserId())).thenReturn(user);
   }
+  
+  @Test
+  public void testPostUser() throws Exception{
+    User user = new User(1L, "tonkatruck");
+    
+    when(userService.addUser(any(User.class))).thenReturn(user);
+    
+    mockMvc.perform(post("/api/user")
+            .content("{\"userId\":\"1\",\"userName\":\"tonkatruck\"}")
+            .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.userName", is(user.getUserName())))
+                .andExpect(status().isCreated())
+                .andDo(print());
+           
+   
+    //verify(userService).addUser(any(User.class));
+    verify(userService).addUser(userCaptor.capture());
+    
+    //get the username from what was captured in the POST method and assert that it posted the correct username
+    //String username = userCaptor.getValue().getUserName();
+    //assertEquals("tonkatruck", username);
+  }
+  
 }

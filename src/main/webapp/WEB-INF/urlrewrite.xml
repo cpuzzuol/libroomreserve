@@ -35,6 +35,10 @@
        <from>^/signin</from>
        <to type="redirect">index.html#/signin</to>
   </rule>
+  <rule>
+       <from>^/404</from>
+       <to type="redirect">index.html#/404</to>
+  </rule>
   <!--
   <rule match-type="wildcard">
      <from>libroomreserve/**</from>

@@ -33,7 +33,7 @@ public class HibernateDataSource {
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan(new String[] { "com.ucrisko.*" });
+        sessionFactory.setPackagesToScan(new String[] { "com.ucrisko.libroomreserve.core.entities" });
         sessionFactory.setHibernateProperties(hibernateProperties());
         return sessionFactory;
      }

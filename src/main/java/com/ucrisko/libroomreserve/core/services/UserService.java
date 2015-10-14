@@ -10,10 +10,9 @@ import com.ucrisko.libroomreserve.core.entities.User;
 import java.util.List;
 
 public interface UserService {
-  public void addUser(User user);
-  public void editUser(User user);
-  public void deleteUser(Long userId);
-  public void deleteUsers(List<Long> userIds);
+  public User addUser(User user);
+  public User editUser(Long userId, User user);
+  public User deleteUser(Long userId);
   
   public User getUser(Long userId);
   

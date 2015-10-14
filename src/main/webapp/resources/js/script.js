@@ -133,6 +133,9 @@ roomResApp.config(function($routeProvider, $locationProvider) {
         .when('/signin', {
             templateUrl : 'pages/login.html',
             controller  : 'SigninController'
+        })
+        .when('/404', {
+            templateUrl : 'pages/404.html'
         });
         
         // use the HTML5 History API

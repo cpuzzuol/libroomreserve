@@ -6,6 +6,8 @@
 
 package com.ucrisko.libroomreserve.rest.resources;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ucrisko.libroomreserve.core.entities.User;
 import org.springframework.hateoas.ResourceSupport;
 
 /**
@@ -21,6 +23,7 @@ import org.springframework.hateoas.ResourceSupport;
 public class UserResource extends ResourceSupport {
   //copied from User Entity
   private Long userId;
+  @JsonProperty
   private String userName;
 
   public Long getUserId() {
@@ -37,5 +40,13 @@ public class UserResource extends ResourceSupport {
 
   public void setUserName(String userName) {
     this.userName = userName;
+  }
+  
+  public User toUser(){
+    User user = new User();
+    user.setUserId(userId);
+    user.setUserName(userName);
+    
+    return user;
   }
 }
