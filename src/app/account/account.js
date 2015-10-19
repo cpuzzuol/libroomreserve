@@ -33,13 +33,15 @@ angular.module('ngBoilerplate.account', ['ui.router', 'ngResource'])
 })
 .controller("RegisterCtrl", function($scope, sessionService, $state, accountService){
     $scope.register = function(){
-        accountService.register($scope.account,
+        accountService.register(
+            $scope.account,
             function(returnedData){
                 sessionService.login($scope.account);
+                console.log($scope.account);
                 $state.go("home");
             },
             function(){
-                console.log("Error registering user!");
+                console.log($scope.account);
             });
     };
 })
@@ -49,7 +51,7 @@ angular.module('ngBoilerplate.account', ['ui.router', 'ngResource'])
     var session = {};
     session.login = function(data){
         localStorage.setItem("session", data);
-        console.log("Logged in user: " + data.name + " / " + data.password);
+        console.log("Logged in user: " + data.userName + " / " + data.password);
     };
     session.logout = function(){
         localStorage.removeItem("session");
