@@ -25,8 +25,18 @@ angular.module('ngBoilerplate.account', ['ui.router', 'ngResource'])
 })
 
 //switch $state if user logged in
-.controller("LoginCtrl", function($scope, sessionService, $state){
+.controller("LoginCtrl", function($scope, sessionService, $state, accountService){
     $scope.login = function() {
+        accountService.userExists(
+                $scope.account, 
+                function(account){
+                    sessionService.login(account);
+                    $state.go("home");
+                }, 
+                function(){
+                    console.log("The user was not found.");
+                }
+        );
         sessionService.login($scope.account);
         $state.go("home");
     };
@@ -68,6 +78,22 @@ angular.module('ngBoilerplate.account', ['ui.router', 'ngResource'])
     service.register = function(account, success, failure){
         var Account = $resource("/libroomreserve/api/user");
         Account.save({}, account, success, failure);
+    };
+    service.userExists = function(account, success, failure){
+        var Account = $resource("/libroomreserve/api/user");
+        var data = Account.get(
+            {userName: account.userName}, 
+            function(){
+                //see if an exsiting user was found through the API call
+                var accounts = data.userResources;
+                if(accounts.length !== 0){
+                    success(accounts[0]); 
+                } else {
+                    failure();
+                }
+            },
+            failure()
+        );
     };
     return service;
 });
