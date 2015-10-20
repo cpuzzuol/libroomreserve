@@ -1,4 +1,4 @@
-angular.module('ngBoilerplate.account', ['ui.router', 'ngResource'])
+angular.module('ngBoilerplate.account', ['ui.router', 'ngResource', 'base64'])
 
 .config(function($stateProvider){
     $stateProvider
@@ -26,11 +26,22 @@ angular.module('ngBoilerplate.account', ['ui.router', 'ngResource'])
 
 //a factory service is similar to a java @Bean
 //returns a JSON object representing the session service
-.factory('sessionService', function(){
+.factory('sessionService', function($http, $base64){
     var session = {};
     session.login = function(data){
-        localStorage.setItem("session", data);
-        console.log("Logged in user: " + data.userName + " / " + data.password);
+        return $http.post("/libroomreserve/login", "username=" + data.userName + "&password" + data.password,
+            {
+                headers: {
+                    'Content-Type' : 'application/x-www-form-urlencoded'
+                }
+            })
+            //.then() is a "PROMISE" which is executed after initial return function is performed        
+            .then(function(){
+                console.log("Logged in the user!");
+                localStorage.setItem("session", {}); 
+            }, function(){
+                console.log("Error logging in the user...");
+            });
     };
     session.logout = function(){
         localStorage.removeItem("session");
@@ -56,7 +67,7 @@ angular.module('ngBoilerplate.account', ['ui.router', 'ngResource'])
                 //see if an exsiting user was found through the API call
                 var accounts = data.userResources;
                 if(accounts.length !== 0){
-                    console.log(accounts.length + " user account found for " + account.UserName + ". Logging in...");
+                    console.log(accounts.length + " user account found for " + account.userName + ". Logging in...");
                     success(accounts[0]); 
                 } else {
                     failure(account);
@@ -74,8 +85,10 @@ angular.module('ngBoilerplate.account', ['ui.router', 'ngResource'])
         accountService.userExists(
                 $scope.account, 
                 function(account){
-                    sessionService.login(account);
-                    $state.go("home");
+                    sessionService.login(account).then(function(){
+                        $state.go("home");
+                    });
+                    
                 }, 
                 function(account){
                     console.log("The user " + account.userName + " was not found.");
@@ -88,11 +101,13 @@ angular.module('ngBoilerplate.account', ['ui.router', 'ngResource'])
         accountService.register(
             $scope.account,
             function(returnedData){
-                sessionService.login($scope.account);
-                console.log($scope.account);
-                $state.go("home");
+                sessionService.login($scope.account).then(function(){
+                    console.log($scope.account);
+                    $state.go("home");
+                });
             },
             function(){
+                console.log("Registration failed!");
                 console.log($scope.account);
             });
     };
