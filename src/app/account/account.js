@@ -24,37 +24,6 @@ angular.module('ngBoilerplate.account', ['ui.router', 'ngResource'])
         });
 })
 
-//switch $state if user logged in
-.controller("LoginCtrl", function($scope, sessionService, $state, accountService){
-    $scope.login = function() {
-        accountService.userExists(
-                $scope.account, 
-                function(account){
-                    sessionService.login(account);
-                    $state.go("home");
-                }, 
-                function(){
-                    console.log("The user was not found.");
-                }
-        );
-        sessionService.login($scope.account);
-        $state.go("home");
-    };
-})
-.controller("RegisterCtrl", function($scope, sessionService, $state, accountService){
-    $scope.register = function(){
-        accountService.register(
-            $scope.account,
-            function(returnedData){
-                sessionService.login($scope.account);
-                console.log($scope.account);
-                $state.go("home");
-            },
-            function(){
-                console.log($scope.account);
-            });
-    };
-})
 //a factory service is similar to a java @Bean
 //returns a JSON object representing the session service
 .factory('sessionService', function(){
@@ -87,14 +56,44 @@ angular.module('ngBoilerplate.account', ['ui.router', 'ngResource'])
                 //see if an exsiting user was found through the API call
                 var accounts = data.userResources;
                 if(accounts.length !== 0){
+                    console.log(accounts.length + " user account found for " + account.UserName + ". Logging in...");
                     success(accounts[0]); 
                 } else {
-                    failure();
+                    failure(account);
                 }
             },
-            failure()
+            failure
         );
     };
     return service;
-});
+})
 
+//switch $state if user logged in
+.controller("LoginCtrl", function($scope, sessionService, $state, accountService){
+    $scope.login = function() {
+        accountService.userExists(
+                $scope.account, 
+                function(account){
+                    sessionService.login(account);
+                    $state.go("home");
+                }, 
+                function(account){
+                    console.log("The user " + account.userName + " was not found.");
+                }
+        );
+    };
+})
+.controller("RegisterCtrl", function($scope, sessionService, $state, accountService){
+    $scope.register = function(){
+        accountService.register(
+            $scope.account,
+            function(returnedData){
+                sessionService.login($scope.account);
+                console.log($scope.account);
+                $state.go("home");
+            },
+            function(){
+                console.log($scope.account);
+            });
+    };
+});
