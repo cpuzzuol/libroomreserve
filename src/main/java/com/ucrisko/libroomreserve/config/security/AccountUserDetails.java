@@ -15,7 +15,6 @@ public class AccountUserDetails implements UserDetails {
 
     private final User user;
     
-    //BIDYONS AND BIDYONS!
     public AccountUserDetails(User user){
         this.user = user;
     }
