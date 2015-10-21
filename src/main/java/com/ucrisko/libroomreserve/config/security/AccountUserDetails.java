@@ -15,6 +15,7 @@ public class AccountUserDetails implements UserDetails {
 
     private final User user;
     
+    
     public AccountUserDetails(User user){
         this.user = user;
     }
