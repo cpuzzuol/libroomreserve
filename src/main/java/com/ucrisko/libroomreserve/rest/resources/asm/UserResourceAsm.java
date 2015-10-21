@@ -20,6 +20,7 @@ public class UserResourceAsm extends ResourceAssemblerSupport<User, UserResource
 
   public UserResourceAsm(){
     super(UserController.class, UserResource.class);
+    
   }
   
   //Creates a user resource
