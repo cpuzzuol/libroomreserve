@@ -98,7 +98,7 @@ public class UserController {
 
   @RequestMapping(value="/{userId}", method = RequestMethod.PUT)
   public ResponseEntity<UserResource> editUser(@PathVariable Long userId, @RequestBody UserResource userResource){
-    User updatedUser = userService.editUser(userId, userResource.toUser());
+    User updatedUser = userService.editUser(userResource.toUser());
     if(updatedUser != null){
       UserResource usr = new UserResourceAsm().toResource(updatedUser);
       return new ResponseEntity<UserResource>(usr, HttpStatus.OK);

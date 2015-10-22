@@ -3,19 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.ucrisko.libroomreserve.core.services.exceptions;
 
-public class UserExistsException extends RuntimeException{
-  public UserExistsException(String message, Throwable cause) {
+/**
+ *
+ * @author cpuzzuol
+ */
+public class RoomExistsException extends RuntimeException{
+  public RoomExistsException(String message, Throwable cause) {
       super(message, cause);
   }
 
-  public UserExistsException(String message) {
+  public RoomExistsException(String message) {
       super(message);
   }
 
-  public UserExistsException() {
+  public RoomExistsException() {
       super();
   }
 }

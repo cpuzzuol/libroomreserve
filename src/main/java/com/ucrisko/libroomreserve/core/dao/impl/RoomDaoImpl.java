@@ -20,19 +20,19 @@ public class RoomDaoImpl implements RoomDao{
     private SessionFactory session;
     
     @Override
-    public Room addUser(Room room) {
+    public Room addRoom(Room room) {
         session.getCurrentSession().save(room);
         return room;
     }
 
     @Override
-    public Room editUser(Room room) {
+    public Room editRoom(Room room) {
         session.getCurrentSession().update(room);
         return room;
     }
 
     @Override
-    public void deleteUser(Long roomId) {
+    public void deleteRoom(Long roomId) {
         session.getCurrentSession().delete(getRoomById(roomId));
     }
 

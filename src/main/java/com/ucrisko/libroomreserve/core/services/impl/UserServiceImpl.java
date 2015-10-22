@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService{
   //error logger
   final static Logger logger = Logger.getLogger(UserServiceImpl.class);
@@ -25,7 +26,7 @@ public class UserServiceImpl implements UserService{
   @Autowired
   private UserDao userDao;
   
-  @Transactional
+  @Override
   public User addUser(User user) {
     User existingUser = userDao.getUserByUserName(user.getUserName());
     if(existingUser != null){
@@ -36,14 +37,14 @@ public class UserServiceImpl implements UserService{
     User userToAdd = userDao.addUser(user);
     return userToAdd;
   }
-
-  @Transactional
-  public User editUser(Long userId, User user) {
+  
+  @Override
+  public User editUser(User user) {
     userDao.editUser(user);
     return user;
   }
 
-  @Transactional
+  @Override
   public User deleteUser(Long userId) {
     User deletedUser = getUserById(userId);
     userDao.deleteUser(userId);
@@ -51,17 +52,17 @@ public class UserServiceImpl implements UserService{
     return deletedUser;
   }
 
-  @Transactional
+  @Override
   public User getUserById(Long userId) {
     return userDao.getUserById(userId);
   }
 
-  @Transactional
+  @Override
   public User getUserByUserName(String userName){
       return userDao.getUserByUserName(userName);
   }
   
-  @Transactional
+  @Override
   public UserList getAllUsers() {
     return new UserList(userDao.getAllUsers());
   }
