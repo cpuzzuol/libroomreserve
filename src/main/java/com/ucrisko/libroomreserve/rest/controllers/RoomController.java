@@ -7,25 +7,31 @@ package com.ucrisko.libroomreserve.rest.controllers;
 
 import com.ucrisko.libroomreserve.core.entities.Room;
 import com.ucrisko.libroomreserve.core.services.RoomService;
+import com.ucrisko.libroomreserve.core.services.exceptions.RoomExistsException;
 import com.ucrisko.libroomreserve.core.services.utilities.RoomList;
 import com.ucrisko.libroomreserve.rest.exceptions.BadRequestException;
+import com.ucrisko.libroomreserve.rest.exceptions.ConflictException;
 import com.ucrisko.libroomreserve.rest.resources.RoomListResource;
 import com.ucrisko.libroomreserve.rest.resources.RoomResource;
 import com.ucrisko.libroomreserve.rest.resources.asm.RoomListResourceAsm;
 import com.ucrisko.libroomreserve.rest.resources.asm.RoomResourceAsm;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value="/api/rooms")
+@RequestMapping(value="/api/room")
 public class RoomController {
     
     @Autowired
@@ -65,5 +71,20 @@ public class RoomController {
       } catch(NullPointerException exception) {
         throw new BadRequestException(exception);
       }
+    }
+    
+    @RequestMapping(method=RequestMethod.POST)
+    public ResponseEntity<RoomResource> addRoom(@RequestBody RoomResource room){
+        try{
+            Room newRoom = roomService.addRoom(room.toRoom());
+            RoomResource roomResource = new RoomResourceAsm().toResource(newRoom);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setLocation(URI.create(roomResource.getLink("self").getHref()));
+
+            return new ResponseEntity<RoomResource>(roomResource, headers, HttpStatus.CREATED);
+        } catch(RoomExistsException exception) {
+            throw new ConflictException(exception); 
+        }
     }
 }

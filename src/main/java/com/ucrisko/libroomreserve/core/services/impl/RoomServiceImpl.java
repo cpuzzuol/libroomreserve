@@ -62,8 +62,7 @@ public class RoomServiceImpl implements RoomService{
 
     @Override
     public RoomList getAllRooms() {
-        RoomList roomList = new RoomList(roomDao.getAllRooms());
-        return roomList;
+        return new RoomList(roomDao.getAllRooms());
     }
     
 }
