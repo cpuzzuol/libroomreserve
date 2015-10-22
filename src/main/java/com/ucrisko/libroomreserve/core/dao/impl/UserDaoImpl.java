@@ -30,8 +30,9 @@ public class UserDaoImpl implements UserDao{
   }
 
   @Override
-  public void editUser(User user) {
+  public User editUser(User user) {
     session.getCurrentSession().update(user);
+    return user;
   }
 
   @Override
@@ -62,11 +63,5 @@ public class UserDaoImpl implements UserDao{
   public List getAllUsers() {
     return session.getCurrentSession().createQuery("from User").list();
   }
-
-  @Override
-  public void deleteUsers(List<Long> userIds) {
-    //session.getCurrentSession().delete(userIds);
-      userIds.stream().forEach((userId) -> session.getCurrentSession().delete(getUserById(userId)));
-  }
-
+  
 }
