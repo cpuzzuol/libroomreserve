@@ -44,13 +44,13 @@ public class RoomController {
      */
     
     @RequestMapping(method=RequestMethod.GET)
-    public ResponseEntity<RoomListResource> listRooms(@RequestParam(value="roomName", required=false) String roomName){
+    public ResponseEntity<RoomListResource> listRooms(@RequestParam(value="roomNumber", required=false) String roomNumber){
       RoomList rooms = null;
       
-      if(roomName == null){
+      if(roomNumber == null){
           rooms = roomService.getAllRooms();
       } else {
-          Room room = roomService.getRoomByRoomName(roomName);
+          Room room = roomService.getRoomByRoomName(roomNumber);
           if(room == null){
               rooms = new RoomList(new ArrayList<Room>());
           } else {
@@ -87,4 +87,15 @@ public class RoomController {
             throw new ConflictException(exception); 
         }
     }
+    
+    @RequestMapping(method = RequestMethod.DELETE)
+    public ResponseEntity<RoomResource> deleteUser(@PathVariable Long roomId){
+        Room deletedRoom = roomService.deleteRoom(roomId);
+        if(deletedRoom != null){
+          RoomResource usr = new RoomResourceAsm().toResource(deletedRoom);
+          return new ResponseEntity<RoomResource>(usr, HttpStatus.OK);
+        } else {
+          return new ResponseEntity<RoomResource>(HttpStatus.NOT_FOUND); 
+        }
+      }
 }

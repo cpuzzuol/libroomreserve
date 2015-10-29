@@ -43,7 +43,8 @@ public class RoomDaoImpl implements RoomDao{
 
     @Override
     public Room getRoomByRoomName(String roomName) {
-      String matchingRoomQuery = "FROM Room r WHERE r.roomName = :roomName";
+      //case insensitive
+      String matchingRoomQuery = "FROM Room r WHERE r.roomNumber = :roomName";
       Query query = session.getCurrentSession().createQuery(matchingRoomQuery);
       query.setParameter("roomName", roomName);
       

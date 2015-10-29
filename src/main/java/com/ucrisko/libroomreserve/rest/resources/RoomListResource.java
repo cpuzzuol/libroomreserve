@@ -10,14 +10,14 @@ import java.util.List;
 import org.springframework.hateoas.ResourceSupport;
 
 public class RoomListResource extends ResourceSupport{
-    private List<RoomResource> roomResrouces = new ArrayList<RoomResource>();
+    private List<RoomResource> roomResources = new ArrayList<RoomResource>();
 
-    public List<RoomResource> getRoomResrouces() {
-        return roomResrouces;
+    public List<RoomResource> getRoomResources() {
+        return roomResources;
     }
 
-    public void setRoomResrouces(List<RoomResource> roomResrouces) {
-        this.roomResrouces = roomResrouces;
+    public void setRoomResources(List<RoomResource> roomResources) {
+        this.roomResources = roomResources;
     }
     
     

@@ -23,7 +23,7 @@ public class RoomListResourceAsm extends ResourceAssemblerSupport<RoomList, Room
     public RoomListResource toResource(RoomList rooms) {
         List<RoomResource> roomResources = new RoomResourceAsm().toResources(rooms.getRooms());
         RoomListResource roomList = new RoomListResource();
-        roomList.setRoomResrouces(roomResources);
+        roomList.setRoomResources(roomResources);
         return roomList;
     }
     
