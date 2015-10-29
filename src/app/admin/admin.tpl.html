@@ -1,6 +1,33 @@
-<div class="">
-    <h1>Administration</h1>
-    <li>
-        <a href ui-sref="editRooms">Edit Rooms</a>
-    </li>
+<div class="row">
+    <div class="col-xs-12">
+        <h1>Administration</h1>
+        <h2>{{ totalUsers }} Total Users</h2>
+        <div class="btn-group">
+            <button type="button" class="btn btn-danger">Room Management</button>
+            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="caret"></span>
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a href ui-sref="listRooms">All Rooms</a></li>
+              <li><a href ui-sref="addRoom">Add a Room</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">Manage Room Groups</a></li>
+            </ul>
+        </div>
+
+        <div class="btn-group">
+            <button type="button" class="btn btn-warning">User Management</button>
+            <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="caret"></span>
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a href ui-sref="editRooms">Edit Users</a></li>
+              <li><a href="#">Add a User</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">Banned Users</a></li>
+            </ul>
+        </div>
+    </div>
 </div>

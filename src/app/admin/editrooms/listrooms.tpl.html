@@ -1,0 +1,6 @@
+<div>
+    <h1 class="page-header">All Rooms</h1>
+    <li ng-repeat="room in rooms">
+        <a href ui-sref="editRoom({ roomNumber: room.roomNumber})">{{room.roomNumber}}</a>
+    </li>
+</div>

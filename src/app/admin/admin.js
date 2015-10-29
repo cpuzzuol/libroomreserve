@@ -12,20 +12,56 @@ angular.module('ngBoilerplate.admin', ['ngBoilerplate.editRooms', 'ui.router', '
             },
             data: { pageTitle: "Administration Panel" }
         })
-        .state('editRooms', {
-            url: '/admin/editrooms',
+        .state('listRooms', {
+            url: '/admin/listrooms',
             views: {
                 'main': {
-                    templateUrl: 'admin/editrooms/editrooms.tpl.html',
-                    controller: 'EditRoomsController'
+                    templateUrl: 'admin/editrooms/listrooms.tpl.html',
+                    controller: 'ListRoomsController'
                 }
             },
-            data: { pageTitle: "Edit Rooms" }
+            data: { pageTitle: "List Rooms" }
+        })
+        .state('editRoom', {
+            //url: '/admin/editroom/:roomNumber',
+            url: '/admin/editroom?roomNumber',
+            views: {
+                'main': {
+                    templateUrl: 'admin/editrooms/editroom.tpl.html',
+                    controller: 'EditRoomController'
+                }
+            },
+            data: { pageTitle: "Edit Room" }
+        })
+        .state('addRoom', {
+            url: '/admin/addroom',
+            views: {
+                'main': {
+                    templateUrl: 'admin/editrooms/addroom.tpl.html',
+                    controller: 'AddRoomController'
+                }
+            },
+            data: { pageTitle: "New Room" }
         });
 })
-        
-.controller('AdminController', function($scope){
+
+.factory('dashboardService', function($http, $resource){
+    var dashboard = {};
     
+    dashboard.totalUsers = function(){
+        return $http.get("/libroomreserve/api/user")
+                .then(function(response){
+                    return response.data.userResources;
+                });
+    };
+    
+    return dashboard;
+})
+        
+.controller('AdminController', function($scope, dashboardService){
+    dashboardService.totalUsers().then(function(data){
+        $scope.totalUsers = data.length;
+    });
 });
 
 
