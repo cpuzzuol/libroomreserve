@@ -88,7 +88,7 @@ public class RoomController {
         }
     }
     
-    @RequestMapping(method = RequestMethod.DELETE)
+    @RequestMapping(value="/{roomId}", method = RequestMethod.DELETE)
     public ResponseEntity<RoomResource> deleteUser(@PathVariable Long roomId){
         Room deletedRoom = roomService.deleteRoom(roomId);
         if(deletedRoom != null){

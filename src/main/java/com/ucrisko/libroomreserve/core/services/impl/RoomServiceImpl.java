@@ -45,9 +45,11 @@ public class RoomServiceImpl implements RoomService{
     @Override
     public Room deleteRoom(Long roomId) {
         Room deletedRoom = getRoomById(roomId);
-        roomDao.deleteRoom(roomId);
-        
-        return deletedRoom;
+        if(deletedRoom != null){
+            roomDao.deleteRoom(roomId);
+            return deletedRoom;
+        } 
+        return null;
     }
 
     @Override
