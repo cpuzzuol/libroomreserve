@@ -15,10 +15,8 @@ angular.module('ngBoilerplate.editRooms', ['ui.router', 'ngResource'])
                 //see if an exsiting user was found through the API call
                 var rooms = data.roomResources;
                 if(rooms.length !== 0){
-                    console.log("There is already a room " + rooms[0].roomNumber + " in the system!");
                     success(rooms[0]); 
                 } else {
-                    console.log("No matching rooms found for " + room.roomNumber);
                     failure(rooms);
                 }
             },
@@ -31,22 +29,8 @@ angular.module('ngBoilerplate.editRooms', ['ui.router', 'ngResource'])
         return newId;
     };
     rooms.deleteRoom = function(roomId, success, failure){
-      //alert("Deleted you sumbitch!");  
       var Room = $resource("/libroomreserve/api/room/:roomId", {roomId: '@roomId'});
-      var data = Room.get(
-                {roomId: roomId},
-                function(){
-                    data.$delete();
-                }
-            );
-      
-     /*
-        return $resource("/libroomreserve/api/room/:roomId", 
-                {},
-                {
-                    'delete': {method: 'DELETE', params: {roomId: roomId}}
-                });
-      */
+      var data = Room.remove({roomId: roomId}, {}, success, failure);
     };
     
     return rooms;
@@ -59,14 +43,31 @@ angular.module('ngBoilerplate.editRooms', ['ui.router', 'ngResource'])
     });
 })
 
-.controller('EditRoomController', function($scope, $http, $stateParams, roomService){
-    $http.get('/libroomreserve/api/room?roomNumber=' + $stateParams.roomNumber).then(function(results){
-        $scope.room = results.data.roomResources[0];
-        //console.log($scope.room);
-    });
+.controller('EditRoomController', function($scope, $http, $state, $stateParams, roomService){
+    $http.get('/libroomreserve/api/room?roomNumber=' + $stateParams.roomNumber)
+        .then(
+            //promise success
+            function(results){
+                $scope.room = results.data.roomResources[0];
+                $scope.roomId = roomService.extractNewRoomId($scope.room.links[0].href);
+                $scope.exists = true;
+            }, 
+            //promise failure
+            function(){
+                $scope.exists = false;
+            }
+        );
     
     $scope.deleteRoom = function(){
-        roomService.deleteRoom(1);
+        roomService.deleteRoom(
+                $scope.roomId,
+                function(){
+                   $state.go("listRooms");
+                },
+                function(){
+                   $scope.notDeleted = true;
+                }
+        );
     };
 })
 

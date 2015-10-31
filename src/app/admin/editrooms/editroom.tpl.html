@@ -1,4 +1,21 @@
-<div class="row">
+<div class="row" ng-hide="exists">
+    <div class="col-xs-12">
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            This room does not exist!
+        </div>
+    </div>
+</div>
+<div class="row" ng-show="notDeleted">
+    <div class="col-xs-12">
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            There was an error deleting this room.
+        </div>
+    </div>
+</div>
+
+<div class="row" ng-show="exists">
     <div class="col-xs-12">
         <h1 class="page-header">Edit Room {{ room.roomNumber }}</h1>
         <form ng-submit="updateRoom()">
@@ -18,8 +35,9 @@
                 <label>Password:</label>
                 <input type="password" ng-model="room.roomGroup" class="form-control">
             </div>-->
+            <input type="hidden" ng-model="roomId">
             <button class="btn btn-warning" type="submit">Update</button>
-            <button class="btn btn-danger" ng-click="deleteRoom()"></button>
+            <button class="btn btn-danger" ng-click="deleteRoom()">Delete Room</button>
         </form>
     </div>
 </div>
