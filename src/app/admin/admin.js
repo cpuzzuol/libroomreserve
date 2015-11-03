@@ -16,7 +16,7 @@ angular.module('ngBoilerplate.admin', ['ngBoilerplate.editRooms', 'ui.router', '
             url: '/admin/listrooms',
             views: {
                 'main': {
-                    templateUrl: 'admin/editrooms/listrooms.tpl.html',
+                    templateUrl: 'admin/rooms/listrooms.tpl.html',
                     controller: 'ListRoomsController'
                 }
             },
@@ -27,7 +27,7 @@ angular.module('ngBoilerplate.admin', ['ngBoilerplate.editRooms', 'ui.router', '
             url: '/admin/editroom?roomNumber',
             views: {
                 'main': {
-                    templateUrl: 'admin/editrooms/editroom.tpl.html',
+                    templateUrl: 'admin/rooms/editroom.tpl.html',
                     controller: 'EditRoomController'
                 }
             },
@@ -37,7 +37,7 @@ angular.module('ngBoilerplate.admin', ['ngBoilerplate.editRooms', 'ui.router', '
             url: '/admin/addroom',
             views: {
                 'main': {
-                    templateUrl: 'admin/editrooms/addroom.tpl.html',
+                    templateUrl: 'admin/rooms/addroom.tpl.html',
                     controller: 'AddRoomController'
                 }
             },
