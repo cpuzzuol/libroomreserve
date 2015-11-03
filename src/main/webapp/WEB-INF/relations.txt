@@ -1,0 +1,15 @@
+@OneToMany
+one ROOM to many RESERVATION
+@ManyToOne
+many RESERVATION to many ROOM
+
+@OneToMany
+one USER to many RESERVATION
+@ManyToOne
+many RESERVATION to one USER
+
+
+bash aliases
+
+libroomreserve = /libroomreserve
+libroomreserveapp = /libroomreserve/src/main/webapp/app
