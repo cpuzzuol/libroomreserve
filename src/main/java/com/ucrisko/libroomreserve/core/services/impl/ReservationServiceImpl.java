@@ -18,8 +18,10 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class ReservationServiceImpl implements ReservationService{
 
     @Autowired
@@ -36,8 +38,11 @@ public class ReservationServiceImpl implements ReservationService{
     
     @Override
     public Reservation addReservation(Reservation reservation){
-        Reservation existingReservation = reservationDao.getReservationById(reservation.getReservationId());
+        logger.debug("!!!IN ADDRESEVATOIN METHOD!!!");
+        logger.debug(reservation.getRoom().toString());
         
+        Reservation existingReservation = reservationDao.getReservationByTimeRoom(reservation.getStartTime(), reservation.getRoom());
+        //Reservation existingReservation = null;
         if(existingReservation != null){
             logger.error("!!!THAT RESERVATION ALREADY EXISTS!!!");
             throw new ReservationExistsException("That reservation already exsits");
@@ -99,6 +104,11 @@ public class ReservationServiceImpl implements ReservationService{
 
     @Override
     public List<Reservation> getReservationsByRoom(Room room, Date startDate, Date endDate) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Reservation getReservationByTimeRoom(Date startTime, Room room) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

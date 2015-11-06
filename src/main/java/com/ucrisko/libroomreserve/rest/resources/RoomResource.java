@@ -16,11 +16,11 @@ public class RoomResource extends ResourceSupport{
     private String roomDescription;
     private Integer roomCapacity;
 
-    @JsonIgnore
+    //@JsonIgnore
     public Long getRoomId() {
         return roomId;
     }
-    
+    @JsonProperty
     public void setRoomId(Long roomId) {
         this.roomId = roomId;
     }

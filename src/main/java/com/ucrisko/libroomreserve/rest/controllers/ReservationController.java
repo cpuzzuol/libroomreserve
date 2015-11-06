@@ -8,10 +8,12 @@ package com.ucrisko.libroomreserve.rest.controllers;
 import com.ucrisko.libroomreserve.core.entities.Reservation;
 import com.ucrisko.libroomreserve.core.services.ReservationService;
 import com.ucrisko.libroomreserve.core.services.exceptions.ReservationExistsException;
+import com.ucrisko.libroomreserve.core.services.impl.RoomServiceImpl;
 import com.ucrisko.libroomreserve.rest.exceptions.ConflictException;
 import com.ucrisko.libroomreserve.rest.resources.ReservationResource;
 import com.ucrisko.libroomreserve.rest.resources.asm.ReservationResourceAsm;
 import java.net.URI;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -25,6 +27,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value="/api/reservation")
 public class ReservationController {
     
+    private static Logger logger = Logger.getLogger(ReservationController.class);
+    
     @Autowired
     private ReservationService reservationService;
     
@@ -35,8 +39,7 @@ public class ReservationController {
             ReservationResource reservationResource = new ReservationResourceAsm().toResource(newReservation);
 
             HttpHeaders headers = new HttpHeaders();
-            headers.setLocation(URI.create(reservationResource.getLink("self").getHref()));
-
+            //headers.setLocation(URI.create(reservationResource.getLink("self").getHref()));
             return new ResponseEntity<ReservationResource>(reservationResource, headers, HttpStatus.CREATED);
         } catch (ReservationExistsException exception) {
             throw new ConflictException(exception); 

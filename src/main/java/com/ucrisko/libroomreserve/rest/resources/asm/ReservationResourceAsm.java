@@ -25,6 +25,7 @@ public class ReservationResourceAsm extends ResourceAssemblerSupport<Reservation
     @Override
     public ReservationResource toResource(Reservation reservation) {
         ReservationResource reservationResource = new ReservationResource();
+        reservationResource.setReservationId(reservation.getReservationId());
         reservationResource.setStartTime(reservation.getStartTime());
         reservationResource.setEndTime(reservation.getEndTime());
         reservationResource.setRoom(reservation.getRoom());

@@ -11,19 +11,23 @@ import com.ucrisko.libroomreserve.core.entities.Room;
 import com.ucrisko.libroomreserve.core.entities.User;
 import java.util.Date;
 import java.util.List;
+import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class ReservationDaoImpl implements ReservationDao{
-
+    private static Logger logger = Logger.getLogger(ReservationDaoImpl.class);
+    
     @Autowired
     private SessionFactory session;
     
     @Override
-    public Reservation addReservation(Reservation reservation) {
+    public Reservation addReservation(Reservation reservation) throws IllegalArgumentException{
         session.getCurrentSession().save(reservation);
         return reservation;
     }
@@ -41,6 +45,7 @@ public class ReservationDaoImpl implements ReservationDao{
 
     @Override
     public Reservation getReservationById(Long reservationId) {
+        logger.debug("!!!RESERVATION ID IS: " + reservationId);
         return (Reservation)session.getCurrentSession().get(Reservation.class, reservationId);
     }
 
@@ -186,6 +191,29 @@ public class ReservationDaoImpl implements ReservationDao{
         }
         
         return listReservations;
+    }
+
+    @Override
+    public Reservation getReservationByTimeRoom(Date startTime, Room room) {
+        logger.debug("!!!!!!!ROOM ID IS: " + room.getRoomId());
+        
+        /* You can query using hibernate's createQuery() OR createCriteria()
+         
+        String matchingReservation = "FROM Reservation r WHERE r.startTime = :startTime AND r.roomId = :roomId";
+        Query query = session.getCurrentSession().createQuery(matchingReservation);
+        query.setParameter("startTime", startTime);
+        query.setParameter("room", room);
+        */
+        Criteria criteria = session.getCurrentSession().createCriteria(Reservation.class);
+        criteria.add(Restrictions.eq("room", room)); //IMPORTANT! when querying another entity, use the ENTITY NAME, not the column name
+        criteria.add(Restrictions.eq("startTime", startTime));
+        
+        List listReservations = criteria.list();
+        if(listReservations.size() == 0){
+            return null;
+        }
+        
+        return (Reservation)listReservations.get(0);
     }
     
 }

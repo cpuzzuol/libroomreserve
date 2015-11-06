@@ -18,6 +18,7 @@ import com.ucrisko.libroomreserve.rest.resources.asm.RoomResourceAsm;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -36,7 +37,7 @@ public class RoomController {
     
     @Autowired
     private RoomService roomService;
-    
+    private static Logger logger = Logger.getLogger(RoomController.class);
     /**
      * List all the rooms in the system unless the optional roomName is given, then just return that Room's resource
      * @param roomName
@@ -81,7 +82,6 @@ public class RoomController {
 
             HttpHeaders headers = new HttpHeaders();
             headers.setLocation(URI.create(roomResource.getLink("self").getHref()));
-
             return new ResponseEntity<RoomResource>(roomResource, headers, HttpStatus.CREATED);
         } catch(RoomExistsException exception) {
             throw new ConflictException(exception); 

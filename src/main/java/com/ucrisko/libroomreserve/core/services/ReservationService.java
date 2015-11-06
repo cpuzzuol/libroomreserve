@@ -32,4 +32,6 @@ public interface ReservationService {
     public List<Reservation> getReservationsByRoom(Room room);
     public List<Reservation> getReservationsByRoom(Room room, Date startOrEndDate, boolean start);
     public List<Reservation> getReservationsByRoom(Room room, Date startDate, Date endDate);
+    
+    public Reservation getReservationByTimeRoom(Date startTime, Room room);
 }

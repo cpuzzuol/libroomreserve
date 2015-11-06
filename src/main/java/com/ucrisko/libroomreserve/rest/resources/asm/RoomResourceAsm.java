@@ -24,6 +24,7 @@ public class RoomResourceAsm extends ResourceAssemblerSupport<Room, RoomResource
     @Override
     public RoomResource toResource(Room room) {
         RoomResource roomResource = new RoomResource();
+        roomResource.setRoomId(room.getRoomId());
         roomResource.setRoomCapacity(room.getRoomCapacity());
         roomResource.setRoomDescription(room.getRoomDescription());
         roomResource.setRoomNumber(room.getRoomNumber());

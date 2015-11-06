@@ -33,7 +33,7 @@ public class Reservation {
     }
 
     
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable=false)
     public Date getStartTime() {
         return startTime;
@@ -43,8 +43,8 @@ public class Reservation {
         this.startTime = startTime;
     }
 
-    @Temporal(TemporalType.DATE)
-    @Column(nullable=false)
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column
     public Date getEndTime() {
         return endTime;
     }

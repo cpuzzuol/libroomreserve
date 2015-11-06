@@ -28,11 +28,11 @@ public class UserResource extends ResourceSupport {
   private String userName;
   private String password;
 
-  @JsonIgnore
+  //@JsonIgnore
   public Long getUserId() {
     return userId;
   }
-  
+  @JsonProperty
   public void setUserId(Long userId) {
     this.userId = userId;
   }
